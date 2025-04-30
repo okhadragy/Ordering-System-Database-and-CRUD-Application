@@ -25,7 +25,7 @@ namespace Project_DB
         public Form1()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=LAPTOP-68C2HGIQ;Initial Catalog=\"Ordering System\";Integrated Security=True;");
+            con = new SqlConnection("Data Source=GALAXYDRSTROYER\\MSSQLSERVER2;Initial Catalog=\"Ordering system\";Integrated Security=True;Encrypt=False;");
             dataGridView.SelectionChanged += dataGridView_SelectionChanged;
 
             comboBox.Text = "Select Table";
@@ -88,11 +88,34 @@ namespace Project_DB
             // prevent read button and order box when no selection
             if (comboBox.SelectedItem != null)
             {
-                readButton.Enabled = true; 
+                readButton.Enabled = true;
                 orderBox.Enabled = true;
             }
+            inputPanel.Controls.Clear();
+            string selectedTable = comboBox.SelectedItem.ToString();
+            List<string> columns = GetTableColumns(selectedTable);
+            inputPanel.Controls.Clear();
+            int top = 10;
+            foreach (string col in columns)
+            {
+                if (col.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-            con.Open();
+                if (col.Equals("Age", StringComparison.OrdinalIgnoreCase))
+                    continue; // Skip derived column
+
+                Label label = new Label() { Text = col, Top = top, Left = 5 };
+                System.Windows.Forms.TextBox box = new System.Windows.Forms.TextBox() { Name = "txt" + col, Top = top + 20, Left = 5, Width = 200 };
+                inputPanel.Controls.Add(label);
+                inputPanel.Controls.Add(box);
+                top += 50;
+            }
+
+
+
+
+
+            // con.Open();
 
             // Get primary key columns for the selected table
             SqlCommand pkCmd = new SqlCommand("EXEC sp_pkeys '" + comboBox.SelectedItem.ToString() + "'", con);
@@ -142,7 +165,7 @@ namespace Project_DB
 
         private void orderBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(orderBox.SelectedItem != null && (string)orderBox.SelectedItem != "No order")
+            if (orderBox.SelectedItem != null && (string)orderBox.SelectedItem != "No order")
             {
                 ascRadio.Checked = true;
 
@@ -219,5 +242,203 @@ namespace Project_DB
                 con.Close();
             }
         }
+        // New Insert Button Handler
+        private void insertButton_Click(object sender, EventArgs e)
+        {
+            if (comboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a table first.");
+                return;
+            }
+
+            string tableName = comboBox.SelectedItem.ToString();
+
+            List<string> columnNames = new List<string>();
+            List<string> columnValues = new List<string>();
+
+            foreach (Control control in inputPanel.Controls)
+            {
+                if (control is System.Windows.Forms.TextBox textBox)
+                {
+                    string columnName = textBox.Name.Replace("txt", ""); // assumes naming like txtName => Name
+                    columnNames.Add(columnName);
+
+                    if (string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        columnValues.Add("NULL");
+                    }
+                    else
+                    {
+                        columnValues.Add("'" + textBox.Text.Replace("'", "''") + "'");
+                    }
+                }
+            }
+
+            if (columnNames.Count == 0)
+            {
+                MessageBox.Show("No input fields found.");
+                return;
+            }
+
+            string columnsPart = string.Join(", ", columnNames);
+            string valuesPart = string.Join(", ", columnValues);
+            string insertQuery = $"INSERT INTO {tableName} ({columnsPart}) VALUES ({valuesPart})";
+
+            try
+            {
+                con.Open();
+                SqlCommand insertCmd = new SqlCommand(insertQuery, con);
+                insertCmd.ExecuteNonQuery();
+                con.Close();
+
+                MessageBox.Show("Record inserted successfully!");
+
+                // Reload data
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM " + tableName, con);
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+                dataGridView.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error inserting data: " + ex.Message);
+                if (con.State == ConnectionState.Open) con.Close();
+            }
+        }
+
+        private List<string> GetTableColumns(string tableName)
+        {
+            List<string> columns = new List<string>();
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = @table", con))
+            {
+                cmd.Parameters.AddWithValue("@table", tableName);
+                if (con.State != ConnectionState.Open) con.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    columns.Add(reader["COLUMN_NAME"].ToString());
+                }
+                reader.Close();
+            }
+            return columns;
+        }
+        private void updateButton_Click(object sender, EventArgs e)
+        {
+            if (comboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a table first.");
+                return;
+            }
+
+            string tableName = comboBox.SelectedItem.ToString();
+            List<string> setClauses = new List<string>();
+            string whereClause = "";
+
+            foreach (Control control in inputPanel.Controls)
+            {
+                if (control is System.Windows.Forms.TextBox textBox)
+                {
+                    string columnName = textBox.Name.Replace("txt", "");
+                    string value = textBox.Text.Trim(); // remove leading/trailing spaces
+
+                    if (primaryKeys.Contains(columnName))
+                    {
+                        // WHERE clause (primary keys shouldn't be null or empty ideally)
+                        if (string.Equals(value, "null", StringComparison.OrdinalIgnoreCase))
+                        {
+                            whereClause += $"{columnName} IS NULL AND ";
+                        }
+                        else if (!string.IsNullOrWhiteSpace(value))
+                        {
+                            whereClause += $"{columnName} = '{value.Replace("'", "''")}' AND ";
+                        }
+                    }
+                    else
+                    {
+                        if (string.IsNullOrWhiteSpace(value))
+                        {
+                            // Skip setting this column at all
+                            continue;
+                        }
+                        else if (string.Equals(value, "null", StringComparison.OrdinalIgnoreCase))
+                        {
+                            setClauses.Add($"{columnName} = NULL");
+                        }
+                        else
+                        {
+                            setClauses.Add($"{columnName} = '{value.Replace("'", "''")}'");
+                        }
+                    }
+                }
+            }
+
+            if (string.IsNullOrEmpty(whereClause))
+            {
+                MessageBox.Show("Primary key value is required to update the record.");
+                return;
+            }
+
+            if (setClauses.Count == 0)
+            {
+                MessageBox.Show("No fields to update.");
+                return;
+            }
+
+            // Remove trailing AND from WHERE clause
+            whereClause = whereClause.Substring(0, whereClause.Length - 5);
+
+            string updateQuery = $"UPDATE {tableName} SET {string.Join(", ", setClauses)} WHERE {whereClause}";
+
+            try
+            {
+                con.Open();
+                SqlCommand updateCmd = new SqlCommand(updateQuery, con);
+                updateCmd.ExecuteNonQuery();
+                con.Close();
+
+                MessageBox.Show("Record updated successfully!");
+
+                // Refresh DataGridView
+                SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM " + tableName, con);
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+                dataGridView.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating data: " + ex.Message);
+                if (con.State == ConnectionState.Open) con.Close();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        private string GetValueForColumn(string columnName)
+        {
+            if (columnName == "Column1")
+                return textBox1.Text;
+            else if (columnName == "Column2")
+                return textBox2.Text;
+            else if (columnName == "Column3")
+                return textBox3.Text;
+
+            // Add more mappings as needed
+            return null;
+        }
+
+        private void inputPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
+
+
