@@ -98,8 +98,14 @@ namespace Project_DB
             int top = 10;
             foreach (string col in columns)
             {
-                if (col.Equals("ID", StringComparison.OrdinalIgnoreCase))
+                if (insertRadioButton.Checked) { 
+                if (col.Equals("ID", StringComparison.OrdinalIgnoreCase) &&
+                  !(selectedTable.Equals("Cart", StringComparison.OrdinalIgnoreCase) ||
+                    selectedTable.Equals("Restaurant_Address", StringComparison.OrdinalIgnoreCase)))
+                {
                     continue;
+                }
+            }
 
                 if (col.Equals("Age", StringComparison.OrdinalIgnoreCase))
                     continue; // Skip derived column
@@ -395,9 +401,19 @@ namespace Project_DB
                 con.Open();
                 SqlCommand updateCmd = new SqlCommand(updateQuery, con);
                 updateCmd.ExecuteNonQuery();
+                int rowsAffected = updateCmd.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    MessageBox.Show("Update failed: no matching record found.");
+                }
+                else
+                {
+                    MessageBox.Show("Update successful.");
+                }
+
                 con.Close();
 
-                MessageBox.Show("Record updated successfully!");
+              
 
                 // Refresh DataGridView
                 SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM " + tableName, con);

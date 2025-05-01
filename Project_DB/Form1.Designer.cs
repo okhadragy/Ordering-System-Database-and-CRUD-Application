@@ -40,6 +40,8 @@ namespace Project_DB
             this.checkedListBox = new System.Windows.Forms.CheckedListBox();
             this.ascRadio = new System.Windows.Forms.RadioButton();
             this.descRadio = new System.Windows.Forms.RadioButton();
+            this.insertRadioButton = new System.Windows.Forms.RadioButton();
+            this.updateRadioButton = new System.Windows.Forms.RadioButton();
             this.orderBox = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -75,7 +77,7 @@ namespace Project_DB
             // dataGridView
             // 
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Location = new System.Drawing.Point(12, 186);
+            this.dataGridView.Location = new System.Drawing.Point(12, 187);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView.Name = "dataGridView";
             this.dataGridView.RowHeadersWidth = 51;
@@ -87,7 +89,7 @@ namespace Project_DB
             // checkedListBox
             // 
             this.checkedListBox.FormattingEnabled = true;
-            this.checkedListBox.Location = new System.Drawing.Point(149, 12);
+            this.checkedListBox.Location = new System.Drawing.Point(157, 13);
             this.checkedListBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.checkedListBox.Name = "checkedListBox";
             this.checkedListBox.Size = new System.Drawing.Size(183, 140);
@@ -98,7 +100,7 @@ namespace Project_DB
             // 
             this.ascRadio.AutoSize = true;
             this.ascRadio.Enabled = false;
-            this.ascRadio.Location = new System.Drawing.Point(12, 123);
+            this.ascRadio.Location = new System.Drawing.Point(12, 125);
             this.ascRadio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.ascRadio.Name = "ascRadio";
             this.ascRadio.Size = new System.Drawing.Size(92, 20);
@@ -119,6 +121,30 @@ namespace Project_DB
             this.descRadio.TabStop = true;
             this.descRadio.Text = "Descending";
             this.descRadio.UseVisualStyleBackColor = true;
+            // 
+            // insertRadioButton
+            // 
+            this.insertRadioButton.AutoSize = true;
+            this.insertRadioButton.Location = new System.Drawing.Point(834, 149);
+            this.insertRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.insertRadioButton.Name = "insertRadioButton";
+            this.insertRadioButton.Size = new System.Drawing.Size(60, 20);
+            this.insertRadioButton.TabIndex = 5;
+            this.insertRadioButton.TabStop = true;
+            this.insertRadioButton.Text = "insert";
+            this.insertRadioButton.UseVisualStyleBackColor = true;
+            // 
+            // updateRadioButton
+            // 
+            this.updateRadioButton.AutoSize = true;
+            this.updateRadioButton.Location = new System.Drawing.Point(834, 173);
+            this.updateRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.updateRadioButton.Name = "updateRadioButton";
+            this.updateRadioButton.Size = new System.Drawing.Size(70, 20);
+            this.updateRadioButton.TabIndex = 5;
+            this.updateRadioButton.TabStop = true;
+            this.updateRadioButton.Text = "update";
+            this.updateRadioButton.UseVisualStyleBackColor = true;
             // 
             // orderBox
             // 
@@ -164,7 +190,7 @@ namespace Project_DB
             // inputPanel
             // 
             this.inputPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.inputPanel.Location = new System.Drawing.Point(478, 13);
+            this.inputPanel.Location = new System.Drawing.Point(498, 13);
             this.inputPanel.Margin = new System.Windows.Forms.Padding(4);
             this.inputPanel.Name = "inputPanel";
             this.inputPanel.Size = new System.Drawing.Size(319, 464);
@@ -197,7 +223,9 @@ namespace Project_DB
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(928, 487);
+            this.ClientSize = new System.Drawing.Size(918, 503);
+            this.Controls.Add(this.insertRadioButton);
+            this.Controls.Add(this.updateRadioButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -229,6 +257,9 @@ namespace Project_DB
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.CheckedListBox checkedListBox;
         private System.Windows.Forms.Panel inputPanel;
+        private RadioButton insertRadioButton;
+        private RadioButton updateRadioButton;
+        private RadioButton deleteRadioButton;
 
         private RadioButton ascRadio;
         private RadioButton descRadio;
