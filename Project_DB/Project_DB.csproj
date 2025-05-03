@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomerOrders.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomerOrders.Designer.cs">
+      <DependentUpon>CustomerOrders.cs</DependentUpon>
+    </Compile>
     <Compile Include="DeleteData.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <Compile Include="ViewData.Designer.cs">
       <DependentUpon>ViewData.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CustomerOrders.resx">
+      <DependentUpon>CustomerOrders.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DeleteData.resx">
       <DependentUpon>DeleteData.cs</DependentUpon>
     </EmbeddedResource>

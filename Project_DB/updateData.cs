@@ -16,7 +16,7 @@ namespace Project_DB
         {
             InitializeComponent();
 
-            con = new SqlConnection("Data Source=KND;Initial Catalog=Ordering System;Integrated Security=True");
+            con = new SqlConnection("Data Source=LAPTOP-68C2HGIQ;Initial Catalog=\"Ordering system\";Integrated Security=True;");
 
             comboBox.Items.AddRange(new string[]
             {

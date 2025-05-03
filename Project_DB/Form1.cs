@@ -25,7 +25,7 @@ namespace Project_DB
         public Form1()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=GALAXYDRSTROYER\\MSSQLSERVER2;Initial Catalog=\"Ordering system\";Integrated Security=True;Encrypt=False;");
+            con = new SqlConnection("Data Source=LAPTOP-68C2HGIQ;Initial Catalog=\"Ordering System\";Integrated Security=True;");
             dataGridView.SelectionChanged += dataGridView_SelectionChanged;
 
             comboBox.Text = "Select Table";
@@ -582,10 +582,9 @@ namespace Project_DB
 
         private void OperationsButton_Click(object sender, EventArgs e)
         {
-           
+            ShowUserControl(new CustomerOrders());
+
             HighlightActiveButton(operationsButton);
-            HideAllContentControls();
-            MessageBox.Show("Extra operations functionality will go here");
         }
 
         private void LogOutButton_Click(object sender, EventArgs e)
@@ -645,6 +644,11 @@ namespace Project_DB
         }
 
         private void mainPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void operationsButton_Click_1(object sender, EventArgs e)
         {
 
         }
