@@ -27,7 +27,7 @@
             this.comboBox.FormattingEnabled = true;
             this.comboBox.Location = new System.Drawing.Point(207, 13);
             this.comboBox.Name = "comboBox";
-            this.comboBox.Size = new System.Drawing.Size(250, 32);
+            this.comboBox.Size = new System.Drawing.Size(250, 28);
             this.comboBox.TabIndex = 0;
             this.comboBox.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
             // 
