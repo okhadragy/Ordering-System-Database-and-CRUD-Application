@@ -25,7 +25,7 @@ namespace Project_DB
         public Form1()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=GALAXYDRSTROYER\\MSSQLSERVER2;Initial Catalog=\"Ordering system\";Integrated Security=True;Encrypt=False;");
+            con = new SqlConnection("Data Source=LAPTOP-68C2HGIQ;Initial Catalog=\"Ordering System\";Integrated Security=True;");
             dataGridView.SelectionChanged += dataGridView_SelectionChanged;
 
             comboBox.Text = "Select Table";
