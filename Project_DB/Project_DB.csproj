@@ -46,16 +46,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DeleteData.Designer.cs">
+      <DependentUpon>DeleteData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="InsertData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="InsertData.Designer.cs">
+      <DependentUpon>InsertData.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="updateData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="updateData.Designer.cs">
+      <DependentUpon>updateData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ViewData.Designer.cs">
+      <DependentUpon>ViewData.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="DeleteData.resx">
+      <DependentUpon>DeleteData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InsertData.resx">
+      <DependentUpon>InsertData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -66,6 +96,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="updateData.resx">
+      <DependentUpon>updateData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ViewData.resx">
+      <DependentUpon>ViewData.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -79,5 +115,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

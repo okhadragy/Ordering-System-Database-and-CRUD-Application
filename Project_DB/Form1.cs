@@ -25,7 +25,7 @@ namespace Project_DB
         public Form1()
         {
             InitializeComponent();
-            con = new SqlConnection("Data Source=LAPTOP-68C2HGIQ;Initial Catalog=\"Ordering System\";Integrated Security=True;");
+            con = new SqlConnection("Data Source=GALAXYDRSTROYER\\MSSQLSERVER2;Initial Catalog=\"Ordering system\";Integrated Security=True;Encrypt=False;");
             dataGridView.SelectionChanged += dataGridView_SelectionChanged;
 
             comboBox.Text = "Select Table";
@@ -35,16 +35,38 @@ namespace Project_DB
             comboBox.Items.Add("Employee");
             comboBox.Items.Add("Menu_Item");
             comboBox.Items.Add("Order_MenuItem");
-            comboBox.Items.Add("OrderTable");
+            comboBox.Items.Add("Order");
             comboBox.Items.Add("Restaurant");
             comboBox.Items.Add("Restaurant_Address");
-            comboBox.Items.Add("UserTable");
+            comboBox.Items.Add("User");
         }
 
         private List<string> primaryKeys = new List<string>();
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            comboBox.Visible = false;
+            readButton.Visible = false;
+            dataGridView.Visible = false;
+            checkedListBox.Visible = false;
+            ascRadio.Visible = false;
+            descRadio.Visible = false;
+            insertRadioButton.Visible = false;
+            updateRadioButton.Visible = false;
+            orderBox.Visible = false;
+            label1.Visible = false;
+            label2.Visible = false;
+            deleteButton.Visible = false;
+            inputPanel.Visible = false;
+            insertButton.Visible = false;
+            updateButton.Visible = false;
+
+            viewDataButton.Click += ViewDataButton_Click;
+            insertDataButton.Click += InsertDataButton_Click;
+            updateDataButton.Click += UpdateDataButton_Click;
+            deleteDataButton.Click += DeleteDataButton_Click;
+            operationsButton.Click += OperationsButton_Click;
+            logOutButton.Click += LogOutButton_Click;
 
         }
 
@@ -451,6 +473,178 @@ namespace Project_DB
         }
 
         private void inputPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //GUI 
+
+        private void ShowViewDataControls()
+        {
+            
+            comboBox.Visible = true;
+            readButton.Visible = true;
+            dataGridView.Visible = true;
+            checkedListBox.Visible = true;
+            ascRadio.Visible = true;
+            descRadio.Visible = true;
+            orderBox.Visible = true;
+            label1.Visible = true;
+            label2.Visible = true;
+        }
+
+        private void ShowInsertControls()
+        {
+            
+            comboBox.Visible = true;
+            inputPanel.Visible = true;
+            insertButton.Visible = true;
+            label2.Visible = true;
+        }
+
+        private void ShowUpdateControls()
+        {
+          
+            comboBox.Visible = true;
+            inputPanel.Visible = true;
+            updateButton.Visible = true;
+            label2.Visible = true;
+        }
+
+        private void ShowDeleteControls()
+        {
+            
+            comboBox.Visible = true;
+            dataGridView.Visible = true;
+            deleteButton.Visible = true;
+            label2.Visible = true;
+        }
+
+        private void ShowUserControl(UserControl control)
+        {
+            foreach (Control c in mainPanel.Controls)
+            {
+                c.Visible = false;
+            }
+
+            if (!mainPanel.Controls.Contains(control))
+            {
+                control.Dock = DockStyle.Fill;
+                mainPanel.Controls.Add(control);
+            }
+
+            control.Visible = true;
+            control.BringToFront();
+        }
+
+
+        private void ViewDataButton_Click(object sender, EventArgs e)
+        {
+            mainPanel.Controls.Clear();
+            var readView = new ViewData();
+            readView.Dock = DockStyle.Fill;
+            mainPanel.Controls.Add(readView); // or add to a central panel
+            readView.BringToFront();
+         
+    
+            HighlightActiveButton(viewDataButton);
+        }
+
+        private void InsertDataButton_Click(object sender, EventArgs e)
+        {
+
+            ShowUserControl(new InsertData());
+
+
+            HighlightActiveButton(insertDataButton);
+        }
+
+        private void UpdateDataButton_Click(object sender, EventArgs e)
+        {
+            ShowUserControl(new UpdateData());
+
+
+            HighlightActiveButton(updateDataButton);
+        }
+
+        private void DeleteDataButton_Click(object sender, EventArgs e)
+        {
+            ShowUserControl(new DeleteData());
+
+
+            HighlightActiveButton(deleteDataButton);
+        }
+
+        private void OperationsButton_Click(object sender, EventArgs e)
+        {
+           
+            HighlightActiveButton(operationsButton);
+            HideAllContentControls();
+            MessageBox.Show("Extra operations functionality will go here");
+        }
+
+        private void LogOutButton_Click(object sender, EventArgs e)
+        {
+            Application.Exit(); // Or implement proper logout logic
+        }
+
+        private void HighlightActiveButton(System.Windows.Forms.Button activeButton)
+        {
+            // Reset all buttons
+            viewDataButton.BackColor = Color.SteelBlue;
+            insertDataButton.BackColor = Color.SteelBlue;
+            updateDataButton.BackColor = Color.SteelBlue;
+            deleteDataButton.BackColor = Color.SteelBlue;
+            operationsButton.BackColor = Color.SteelBlue;
+
+            // Highlight active button
+            activeButton.BackColor = Color.DodgerBlue;
+        }
+
+        private void HideAllContentControls()
+        {
+            // List of all controls that should be hidden when switching views
+            var contentControls = new List<Control>
+                {
+                    comboBox,
+                    readButton,
+                    dataGridView,
+                    checkedListBox,
+                    ascRadio,
+                    descRadio,
+                    insertRadioButton,
+                    updateRadioButton,
+                    orderBox,
+                    label1,
+                    label2,
+                    deleteButton,
+                    inputPanel,
+                    insertButton,
+                    updateButton
+                };
+
+            foreach (var control in contentControls)
+            {
+                control.Visible = false;
+            }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mainPanel_Paint(object sender, PaintEventArgs e)
         {
 
         }
