@@ -102,14 +102,6 @@ A complete desktop-based Ordering Management System built using **C# Windows For
 └── README.md
 ```
 
----
-
-## 👤 Author
-
-Made with 💻 by \[Omar Elkhdragy]
-
----
-
 ## 📜 License
 
 This project is for educational use. Feel free to fork and enhance.
