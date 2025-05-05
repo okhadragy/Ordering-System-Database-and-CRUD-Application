@@ -48,14 +48,69 @@ A complete desktop-based Ordering Management System built using **C# Windows For
 
 ---
 
-## 🎥 Demo Video
-
-📺 [Watch the System in Action](https://your-video-link.com)
-
----
-
 ## ⚙️ How to Run
 
 1. Clone the repo:
    ```bash
    git clone https://github.com/okhadragy/Ordering-System-Database-and-CRUD-Application.git
+   cd Ordering-System-Database-and-CRUD-Application
+   ```
+
+2. **Open in Visual Studio**
+
+   * Open the `.sln` file using **Visual Studio**.
+
+3. **Update SQL Server Connection String**
+
+   * In the `App.config` file, make sure the connection string points to your SQL Server instance:
+
+     ```xml
+     <connectionStrings>
+       <add name="YourDB" connectionString="Data Source=.;Initial Catalog=OrderingDB;Integrated Security=True" />
+     </connectionStrings>
+     ```
+
+   * Replace `Data Source=.` if your SQL Server instance differs (e.g., `Data Source=localhost\SQLEXPRESS`).
+
+4. **Set Up the Database**
+
+   * Run the SQL script located at `database/setup.sql` using SQL Server Management Studio (SSMS) to:
+
+     * Create all tables
+     * Define stored procedures, functions, and views
+     * Insert seed data
+
+5. **Build and Run**
+
+   * Build the solution in Visual Studio.
+   * Start the application.
+
+---
+
+## 📁 Repo Structure
+
+```
+📦 project-root
+├── 📂 database
+|   ├── dummy_data.sql
+│   ├── setup.sql
+│   ├── procedures.sql
+│   ├── functions.sql
+│   └── views.sql
+├── 📂 src
+│   └── (C# solution and project files)
+└── README.md
+```
+
+---
+
+## 👤 Author
+
+Made with 💻 by \[Omar Elkhdragy]
+
+---
+
+## 📜 License
+
+This project is for educational use. Feel free to fork and enhance.
+
